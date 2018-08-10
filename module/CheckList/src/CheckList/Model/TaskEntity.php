@@ -5,7 +5,7 @@ class TaskEntity
 {
     protected $id;
     protected $title;
-    protected $complete;
+    protected $completed = 0;
     protected $created;
     
     public function __construct()
@@ -26,14 +26,6 @@ class TaskEntity
     public function getTitle()
     {
         return $this->title;
-    }
-
-    /**
-     * @return the $complete
-     */
-    public function getComplete()
-    {
-        return $this->complete;
     }
 
     /**
@@ -61,19 +53,27 @@ class TaskEntity
     }
 
     /**
-     * @param field_type $complete
-     */
-    public function setComplete($complete)
-    {
-        $this->complete = $complete;
-    }
-
-    /**
      * @param string $created
      */
     public function setCreated($created)
     {
         $this->created = $created;
     }
+    /**
+     * @return the $completed
+     */
+    public function getCompleted()
+    {
+        return $this->completed;
+    }
+
+    /**
+     * @param field_type $completed
+     */
+    public function setCompleted($completed)
+    {
+        $this->completed = $completed;
+    }
+
 
 }

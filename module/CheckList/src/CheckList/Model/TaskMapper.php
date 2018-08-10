@@ -1,12 +1,12 @@
 <?php
 namespace CheckList\Model;
 
-use Zend\Db\Adapter\Adapter;
 use CheckList\Model\TaskEntity;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Select;
-use Zend\Stdlib\Hydrator\ClassMethods;
+use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Sql;
+use Zend\Stdlib\Hydrator\ClassMethods;
 
 class TaskMapper
 {
@@ -35,6 +35,33 @@ class TaskMapper
         $resultset->initialize($result);
         
         return $resultset;
+    }
+    
+    public function saveTask(TaskEntity $task)
+    {
+        $hydrator = new ClassMethods();
+        $data = $hydrator->extract($task);
+        
+        if ($task->getId()) {
+            // update action
+            $action = $this->sql->update();
+            $action->set($data);
+            $action->where(array('id' => $task->getId()));
+        } else {
+            // insert action
+            $action = $this->sql->insert();
+            unset($data['id']);
+            $action->values($data);            
+        }
+        
+        $statement = $this->sql->prepareStatementForSqlObject($action);
+        $result = $statement->execute();
+        
+        if (! $task->getId()) {
+            $task->setId($result->getGeneratedValue());
+        }
+        
+        return $result;
     }
 }
 

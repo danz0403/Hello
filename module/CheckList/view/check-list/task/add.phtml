@@ -1,0 +1,21 @@
+<?php
+    $title = "新增待辦事項";
+    $this->headtitle($title);
+?>
+<h1><?php echo $this->escapehtml($title); ?></h1>
+
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', $this->url('task', array('action' => 'add')));
+    $form->get('submit')->setAttribute('value', 'Add');
+    $form->prepare();
+    
+    echo $this->form()->openTag($form);
+    echo $this->formHidden($form->get('id'));
+    echo $this->formRow($form->get('title'));   
+?>
+<div>
+<?php echo $this->formInput($form->get('submit')); ?>
+</div>
+
+<?php  echo $this->form()->closeTag($form); ?>
